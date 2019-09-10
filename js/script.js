@@ -2,34 +2,56 @@ window.addEventListener("load", Init);
 
 
 function Init(){
-let url = "https://swapi.co/api/people/";
-Request(url, GetPerson);
+    let url = "https://swapi.co/api/people/";
+    Request(url, GetPerson);
+    let prevUrl = "";
+    let nextURL = "";
+    let nextPage = document.querySelector(".nextPage");
+    nextPage.addEventListener("click", Nextpage);
+    let prePage = document.querySelector(".prePage");
+    prePage.addEventListener("click", Prepage);
+}
+
+function Nextpage(){
+    Request(nextUrl, GetPerson);
+}
+
+function Prepage(){
+    Request(prevUrl, GetPerson);
 }
 
 function Request(url, callback) {
 
-let xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
 
-xhr.open("GET", url, true);
-xhr.send();
+    xhr.open("GET", url, true);
+    xhr.send();
 
-xhr.onreadystatechange = function () {
-if (xhr.readyState != 4) return;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4) return;
 
-if (xhr.status != 200) {
-let errStatus = xhr.status;
-let errText = xhr.statusText;
-console.log(errStatus + ": " + errText);
-} else {
-let data = JSON.parse(xhr.responseText);
-callback(data);
-}
-};
+        if (xhr.status != 200) {
+            let errStatus = xhr.status;
+            let errText = xhr.statusText;
+            console.log(errStatus + ": " + errText);
+        } else {
+            let data = JSON.parse(xhr.responseText);
+            callback(data);
+    }
+    };
 }
 
 function GetPerson(persons){
-    var elem = document.getElementById("elem");    
-    var table = document.createElement("table");
+    if(persons.previos==null){
+        console.log(persons);
+    }     
+    prevUrl = persons.previous;
+    nextUrl = persons.next;    
+    var elem = document.getElementById("elem");
+    if(elem.hasChildNodes()){
+        elem.firstElementChild.remove();
+    }    
+    var table = document.createElement("table");    
     table.style.cssText = "width:100%; text-align:center;";
     table.setAttribute("class","table table-inbox table-hover");
     var thead = document.createElement("thead");
@@ -62,11 +84,10 @@ function GetPerson(persons){
         thead.rows[0].cells[1].innerHTML = "Birth Year";
         thead.rows[0].cells[2].innerHTML = "Gender";
 
-for (let i = 0; i < persons.results.length; i++){    
+    for (let i = 0; i < persons.results.length; i++){    
     tbody.rows[i].cells[0].innerHTML = persons.results[i].name;
     tbody.rows[i].cells[1].innerHTML = persons.results[i].birth_year;
     tbody.rows[i].cells[2].innerHTML = persons.results[i].gender;
     
-}  
-    
+    }  
 }
