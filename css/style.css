@@ -187,12 +187,10 @@ ul.labels-info li a i {
     background: none repeat scroll 0 0 #f7f7f7;
     font-weight: 600;
 }
-ul.inbox-pagination {
-    float: right;
+ul.inbox-pagination li{
+    display: inline-block;
 }
-ul.inbox-pagination li {
-    float: left;
-}
+
 .mail-option {
     display: inline-block;
     margin-bottom: 10px;

@@ -5,19 +5,41 @@ function Init(){
     let url = "https://swapi.co/api/people/?page=1";
     Request(url, GetPerson);
     let nextUrl = "";
-    let prevUrl = "";
+    let prevUrl = "";    
     let nextPage = document.querySelector(".nextPage");
     nextPage.addEventListener("click", Nextpage);
     let prePage = document.querySelector(".prePage");
     prePage.addEventListener("click", Prepage);
 }
-
+var number = 0;
 function Nextpage(){    
-    Request(nextUrl, GetPerson);
+    Request(nextUrl, GetPerson);    
+    ++number;    
 }
 
 function Prepage(){    
     Request(prevUrl, GetPerson);
+    --number;    
+}
+
+function ChangeNumber(num, countOf){       
+    var count = document.getElementById("count");
+    if(num>(countOf/10)){
+        number = 0;
+        num = 0;
+    }
+    if(num<0){
+        number = 8;
+        num = 8;
+    }     
+    var number1 = (num*10)+1;
+    var number2 = (num+1)*10;    
+    if(number2>countOf){
+        number2=countOf;       
+    }   
+    var text = number1 + "-" + number2 + " of " + countOf;   
+    
+    count.innerHTML = text;
 }
 
 function Loader(xhr){
@@ -55,22 +77,23 @@ function Request(url, callback) {
 }
 
 function GetPerson(persons){          
+    ChangeNumber(number, persons.count);
     ControlURL(persons);
-    Createtable(persons);
+    CreateTable(persons);    
 }
 
 function ControlURL(persons){
     prevUrl = persons.previous;
-    nextUrl = persons.next; 
+    nextUrl = persons.next;    
     if(prevUrl==null){
         prevUrl = "https://swapi.co/api/people/?page=9";
     }
     if(nextUrl==null){
-        nextUrl = "https://swapi.co/api/people/?page=1";
+        nextUrl = "https://swapi.co/api/people/?page=1";        
     } 
 }
 
-function Createtable(persons){
+function CreateTable(persons){
     var elem = document.getElementById("elem");
     if(elem.hasChildNodes()){
         elem.firstElementChild.remove();
