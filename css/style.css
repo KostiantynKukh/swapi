@@ -169,9 +169,10 @@ ul.labels-info li a i {
 .table-inbox {
     border: 1px solid #d3d3d3;
     margin-bottom: 0;
+    text-align: center;
 }
 .table-inbox tr td {
-    padding: 12px !important;
+    padding: 15px !important;
 }
 .table-inbox tr td:hover {
     cursor: pointer;
