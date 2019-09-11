@@ -238,6 +238,7 @@ ul.inbox-pagination li{
     border: 1px solid #e6e6e6;
     box-shadow: none;
 }
+
 .btn-send, .btn-send:hover {
     background: none repeat scroll 0 0 #00a8b3;
     color: #fff;
@@ -365,4 +366,5 @@ ul {
 .fat-text{
     font-weight: 900;
 }
+
  

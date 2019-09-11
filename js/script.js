@@ -2,24 +2,40 @@ window.addEventListener("load", Init);
 
 
 function Init(){
-    let url = "https://swapi.co/api/people/?page=1";
+    let url = "https://swapi.co/api/people";
     Request(url, GetPerson);
     let nextUrl = "";
     let prevUrl = "";    
     let nextPage = document.querySelector(".nextPage");
     nextPage.addEventListener("click", Nextpage);
     let prePage = document.querySelector(".prePage");
-    prePage.addEventListener("click", Prepage);
+    prePage.addEventListener("click", Prepage);    
+    var swapiElem = document.getElementById("swapiElem");
+    for(i=0; i<swapiElem.children.length;i++){
+        swapiElem.children[i].addEventListener("click", ChooseElement);
+    }
 }
+
 var number = 0;
 function Nextpage(){    
     Request(nextUrl, GetPerson);    
     ++number;    
 }
-
 function Prepage(){    
-    Request(prevUrl, GetPerson);
+    Request(prevUrl, GetPerson)
     --number;    
+}
+function ChooseElement(){ 
+    var elementsUrl = [
+        "https://swapi.co/api/people",
+        "https://swapi.co/api/planets",
+        "https://swapi.co/api/starships",
+        "https://swapi.co/api/vehicles",
+        "https://swapi.co/api/films",
+        "https://swapi.co/api/species"
+    ];   
+    var currentUrl = elementsUrl[this.value];
+    Request(currentUrl, GetPerson);
 }
 
 function ChangeNumber(num, countOf){       
@@ -61,9 +77,7 @@ function Request(url, callback) {
     xhr.open("GET", url, true);
     xhr.send();    
     xhr.onreadystatechange = function () {
-        if (xhr.readyState != 4) {                
-            return
-        };
+        if (xhr.readyState != 4) return;       
 
         if (xhr.status != 200) {
             let errStatus = xhr.status;
